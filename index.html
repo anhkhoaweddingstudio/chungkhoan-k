@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CHỨNG KHOÁN K - Pro K1 Dashboard</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
     <style>
         body { background-color: #0b0f19; color: #e2e8f0; font-family: 'Inter', system-ui, sans-serif; }
         .card { background-color: #131b2e; border: 1px solid #1e293b; border-radius: 10px; }
@@ -34,7 +34,6 @@
                 </div>
             </div>
             
-            <!-- Chỉ số VN-Index Header Bar -->
             <div class="flex flex-wrap gap-4 text-xs bg-gray-900/80 px-4 py-3 rounded-xl border border-gray-800 shadow-inner">
                 <div>
                     <span class="text-gray-400 block text-[10px]">VN-INDEX</span> 
@@ -54,7 +53,6 @@
 
     <!-- METRICS QUICK OVERVIEW -->
     <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
-        <!-- Độ rộng thị trường -->
         <div class="card p-3.5">
             <span class="text-xs text-gray-400 font-medium block mb-2"><i class="fa-solid fa-chart-pie text-blue-400 mr-1.5"></i> Độ Rộng Thị Trường</span>
             <div class="flex justify-between items-center text-xs font-bold mb-1">
@@ -69,7 +67,6 @@
             </div>
         </div>
 
-        <!-- Tâm lý thị trường -->
         <div class="card p-3.5 flex flex-col justify-between">
             <div class="flex justify-between items-center">
                 <span class="text-xs text-gray-400 font-medium"><i class="fa-solid fa-gauge-high text-orange-400 mr-1.5"></i> Tâm Lý Thị Trường</span>
@@ -78,7 +75,6 @@
             <div class="text-xs text-gray-400 mt-2">Duy trì tỷ trọng an toàn, canh gom cổ phiếu tốt vùng quá bán.</div>
         </div>
 
-        <!-- Sức mạnh mua/bán -->
         <div class="card p-3.5 flex flex-col justify-between">
             <div class="flex justify-between items-center">
                 <span class="text-xs text-gray-400 font-medium"><i class="fa-solid fa-bolt text-green-400 mr-1.5"></i> Mua/Bán Lũy Kế</span>
@@ -87,7 +83,6 @@
             <div class="text-xs text-gray-300 mt-2">Dòng tiền cá mập chủ động thu gom nhóm Thép & Dệt may.</div>
         </div>
 
-        <!-- Quản trị tỷ trọng -->
         <div class="card p-3.5 flex flex-col justify-between">
             <div class="flex justify-between items-center">
                 <span class="text-xs text-gray-400 font-medium"><i class="fa-solid fa-shield-halved text-purple-400 mr-1.5"></i> Tỷ Trọng Danh Mục Khuyến Nghị</span>
@@ -126,7 +121,7 @@
         <!-- TAB 1: TIỀM NĂNG -->
         <section id="tab-tiem-nang" class="space-y-6">
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <div class="card p-4 border-t-4 border-green-500">
+                <div class="card p-4 border-t-4 border-green-500 cursor-pointer hover:bg-gray-800/40 transition" onclick="loadSymbol('HOSE:FPT')">
                     <div class="flex justify-between items-center mb-2">
                         <span class="font-bold text-base text-white">FPT <span class="text-xs font-normal text-gray-400">(Tập đoàn FPT)</span></span>
                         <span class="up font-bold">95,400 <span class="text-xs">(+1.5%)</span></span>
@@ -140,7 +135,8 @@
                         </div>
                     </div>
                 </div>
-                <div class="card p-4 border-t-4 border-blue-500">
+
+                <div class="card p-4 border-t-4 border-blue-500 cursor-pointer hover:bg-gray-800/40 transition" onclick="loadSymbol('HOSE:HPG')">
                     <div class="flex justify-between items-center mb-2">
                         <span class="font-bold text-base text-white">HPG <span class="text-xs font-normal text-gray-400">(Hòa Phát)</span></span>
                         <span class="up font-bold">21,250 <span class="text-xs">(+2.1%)</span></span>
@@ -154,7 +150,8 @@
                         </div>
                     </div>
                 </div>
-                <div class="card p-4 border-t-4 border-purple-500">
+
+                <div class="card p-4 border-t-4 border-purple-500 cursor-pointer hover:bg-gray-800/40 transition" onclick="loadSymbol('HOSE:MBB')">
                     <div class="flex justify-between items-center mb-2">
                         <span class="font-bold text-base text-white">MBB <span class="text-xs font-normal text-gray-400">(Ngân hàng Quân Đội)</span></span>
                         <span class="ceiling font-bold">28,500 <span class="text-xs">(Tăng Trần)</span></span>
@@ -170,18 +167,30 @@
                 </div>
             </div>
 
+            <!-- BIỂU ĐỒ NẾN TRADINGVIEW CHUẨN THỊ TRƯỜNG -->
             <div class="card p-4">
-                <h2 class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-3"><i class="fa-solid fa-chart-line text-orange-400 mr-1.5"></i> Biểu đồ xu hướng dòng tiền Top Cổ Phiếu</h2>
-                <div class="h-64"><canvas id="mainStockChart"></canvas></div>
+                <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-3 mb-4">
+                    <h2 class="text-xs font-bold text-gray-400 uppercase tracking-wider flex items-center gap-2">
+                        <i class="fa-solid fa-chart-candlestick text-orange-400"></i> Biểu Đồ Kỹ Thuật Nến Nhật (TradingView Pro)
+                    </h2>
+                    <div class="flex flex-wrap items-center gap-2">
+                        <span class="text-xs text-gray-400">Xem nhanh:</span>
+                        <button onclick="loadSymbol('HOSE:VNINDEX')" class="bg-gray-800 hover:bg-orange-600 text-white text-xs px-2.5 py-1 rounded font-semibold transition">VN-INDEX</button>
+                        <button onclick="loadSymbol('HOSE:VN30')" class="bg-gray-800 hover:bg-orange-600 text-white text-xs px-2.5 py-1 rounded font-semibold transition">VN30</button>
+                        <button onclick="loadSymbol('HOSE:FPT')" class="bg-gray-800 hover:bg-orange-600 text-white text-xs px-2.5 py-1 rounded font-semibold transition">FPT</button>
+                        <button onclick="loadSymbol('HOSE:HPG')" class="bg-gray-800 hover:bg-orange-600 text-white text-xs px-2.5 py-1 rounded font-semibold transition">HPG</button>
+                    </div>
+                </div>
+                
+                <!-- Khung hiển thị biểu đồ TradingView -->
+                <div class="w-full h-[520px] rounded-lg overflow-hidden border border-gray-800" id="tradingview_chart_container"></div>
             </div>
         </section>
 
-        <!-- TAB 2: DANH MỤC CÁ NHÂN -->
+        <!-- OTHER TABS -->
         <section id="tab-danh-muc" class="hidden space-y-6">
             <div class="card p-4">
-                <div class="flex justify-between items-center mb-4">
-                    <h2 class="text-xs font-bold text-gray-400 uppercase tracking-wider"><i class="fa-solid fa-wallet text-blue-400 mr-1.5"></i> Quản Lý Danh Mục Đầu Tư Của Bạn</h2>
-                </div>
+                <h2 class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-4"><i class="fa-solid fa-wallet text-blue-400 mr-1.5"></i> Quản Lý Danh Mục Đầu Tư</h2>
                 <div class="overflow-x-auto">
                     <table class="w-full text-left text-xs">
                         <thead class="bg-gray-900/80 text-gray-400 uppercase border-b border-gray-800">
@@ -194,14 +203,14 @@
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-gray-800/60">
-                            <tr>
+                            <tr class="cursor-pointer hover:bg-gray-800/40" onclick="loadSymbol('HOSE:FPT')">
                                 <td class="p-3 font-bold text-white text-sm">FPT</td>
                                 <td class="p-3">2,000</td>
                                 <td class="p-3">85,000</td>
                                 <td class="p-3 up font-semibold">95,400</td>
                                 <td class="p-3 up font-bold">+20,800,000 (+12.2%)</td>
                             </tr>
-                            <tr>
+                            <tr class="cursor-pointer hover:bg-gray-800/40" onclick="loadSymbol('HOSE:HPG')">
                                 <td class="p-3 font-bold text-white text-sm">HPG</td>
                                 <td class="p-3">5,000</td>
                                 <td class="p-3">20,500</td>
@@ -214,7 +223,6 @@
             </div>
         </section>
 
-        <!-- TAB 3: DÒNG TIỀN & KHỐI NGOẠI -->
         <section id="tab-dong-tien" class="hidden space-y-4">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div class="card p-4">
@@ -223,44 +231,21 @@
                         <div>
                             <span class="text-xs font-bold up block mb-1">MUA RÒNG NHIỀU NHẤT:</span>
                             <div class="flex flex-wrap gap-1.5">
-                                <span class="bg-green-950 text-green-300 border border-green-800 text-xs px-2.5 py-1 rounded font-bold">HPG</span>
-                                <span class="bg-green-950 text-green-300 border border-green-800 text-xs px-2.5 py-1 rounded font-bold">SHB</span>
-                                <span class="bg-green-950 text-green-300 border border-green-800 text-xs px-2.5 py-1 rounded font-bold">VHM</span>
-                                <span class="bg-green-950 text-green-300 border border-green-800 text-xs px-2.5 py-1 rounded font-bold">TCB</span>
-                                <span class="bg-green-950 text-green-300 border border-green-800 text-xs px-2.5 py-1 rounded font-bold">VIB</span>
-                            </div>
-                        </div>
-                        <div class="pt-2 border-t border-gray-800">
-                            <span class="text-xs font-bold down block mb-1">BÁN RÒNG NHIỀU NHẤT:</span>
-                            <div class="flex flex-wrap gap-1.5">
-                                <span class="bg-red-950 text-red-300 border border-red-800 text-xs px-2.5 py-1 rounded font-bold">MBB</span>
-                                <span class="bg-red-950 text-red-300 border border-red-800 text-xs px-2.5 py-1 rounded font-bold">VCB</span>
-                                <span class="bg-red-950 text-red-300 border border-red-800 text-xs px-2.5 py-1 rounded font-bold">VIC</span>
-                                <span class="bg-red-950 text-red-300 border border-red-800 text-xs px-2.5 py-1 rounded font-bold">MWG</span>
-                                <span class="bg-red-950 text-red-300 border border-red-800 text-xs px-2.5 py-1 rounded font-bold">SSI</span>
+                                <span onclick="loadSymbol('HOSE:HPG')" class="bg-green-950 text-green-300 border border-green-800 text-xs px-2.5 py-1 rounded font-bold cursor-pointer hover:bg-green-800">HPG</span>
+                                <span onclick="loadSymbol('HOSE:SHB')" class="bg-green-950 text-green-300 border border-green-800 text-xs px-2.5 py-1 rounded font-bold cursor-pointer hover:bg-green-800">SHB</span>
+                                <span onclick="loadSymbol('HOSE:VHM')" class="bg-green-950 text-green-300 border border-green-800 text-xs px-2.5 py-1 rounded font-bold cursor-pointer hover:bg-green-800">VHM</span>
                             </div>
                         </div>
                     </div>
                 </div>
-
                 <div class="card p-4">
                     <h2 class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-3"><i class="fa-solid fa-ranking-star text-yellow-400 mr-1.5"></i> Vượt Đỉnh & Lệnh Lớn</h2>
                     <div class="space-y-3">
                         <div>
                             <span class="text-xs font-bold text-green-400 block mb-1">VƯỢT ĐỈNH NGẮN HẠN:</span>
                             <div class="flex flex-wrap gap-1.5">
-                                <span class="bg-gray-900 text-green-400 border border-gray-700 text-xs px-2.5 py-1 rounded font-bold">MSB</span>
-                                <span class="bg-gray-900 text-green-400 border border-gray-700 text-xs px-2.5 py-1 rounded font-bold">BAF</span>
-                                <span class="bg-gray-900 text-green-400 border border-gray-700 text-xs px-2.5 py-1 rounded font-bold">SMA</span>
-                            </div>
-                        </div>
-                        <div class="pt-2 border-t border-gray-800">
-                            <span class="text-xs font-bold text-orange-400 block mb-1">TOP MUA LỆNH LỚN (CÁ MẬP):</span>
-                            <div class="flex flex-wrap gap-1.5">
-                                <span class="bg-gray-900 text-orange-400 border border-gray-700 text-xs px-2.5 py-1 rounded font-bold">HDB</span>
-                                <span class="bg-gray-900 text-orange-400 border border-gray-700 text-xs px-2.5 py-1 rounded font-bold">HPG</span>
-                                <span class="bg-gray-900 text-orange-400 border border-gray-700 text-xs px-2.5 py-1 rounded font-bold">HUT</span>
-                                <span class="bg-gray-900 text-orange-400 border border-gray-700 text-xs px-2.5 py-1 rounded font-bold">STB</span>
+                                <span onclick="loadSymbol('HOSE:MSB')" class="bg-gray-900 text-green-400 border border-gray-700 text-xs px-2.5 py-1 rounded font-bold cursor-pointer hover:bg-gray-800">MSB</span>
+                                <span onclick="loadSymbol('HOSE:BAF')" class="bg-gray-900 text-green-400 border border-gray-700 text-xs px-2.5 py-1 rounded font-bold cursor-pointer hover:bg-gray-800">BAF</span>
                             </div>
                         </div>
                     </div>
@@ -268,7 +253,6 @@
             </div>
         </section>
 
-        <!-- TAB 4: THÔNG TIN & TIN TỨC -->
         <section id="tab-thong-tin" class="hidden space-y-4">
             <div class="card p-4">
                 <h2 class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-4"><i class="fa-solid fa-newspaper text-purple-400 mr-1.5"></i> Tin Tức Thị Trường & Doanh Nghiệp</h2>
@@ -282,7 +266,6 @@
             </div>
         </section>
 
-        <!-- TAB 5: DỮ LIỆU YOUTUBE -->
         <section id="tab-youtube" class="hidden space-y-4">
             <div class="card p-4">
                 <h2 class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-2"><i class="fa-brands fa-youtube text-red-500 mr-1.5"></i> Ghi Chép & Tham Khảo Nội Dung Video YouTube</h2>
@@ -295,7 +278,6 @@
             </div>
         </section>
 
-        <!-- TAB 6: NHẬN ĐỊNH AI 9:00 -->
         <section id="tab-ai-copilot" class="hidden space-y-4">
             <div class="card p-4 border-l-4 border-green-500 shadow-lg">
                 <div class="flex justify-between items-center mb-3">
@@ -323,27 +305,27 @@
             document.getElementById('btn-' + tabId).classList.add('active');
         }
 
-        const ctx = document.getElementById('mainStockChart').getContext('2d');
-        new Chart(ctx, {
-            type: 'line',
-            data: {
-                labels: ['Thứ 2', 'Thứ 3', 'Thứ 4', 'Thứ 5', 'Thứ 6'],
-                datasets: [
-                    { label: 'FPT', data: [93, 93.8, 94.2, 94.8, 95.4], borderColor: '#22c55e', borderWidth: 2, tension: 0.3, fill: false },
-                    { label: 'HPG', data: [20.5, 20.8, 21.0, 20.9, 21.25], borderColor: '#3b82f6', borderWidth: 2, tension: 0.3, fill: false },
-                    { label: 'MBB', data: [27.0, 27.3, 27.8, 28.0, 28.5], borderColor: '#a855f7', borderWidth: 2, tension: 0.3, fill: false }
-                ]
-            },
-            options: { 
-                responsive: true, 
-                maintainAspectRatio: false, 
-                plugins: { legend: { labels: { color: '#e2e8f0', font: { size: 11 } } } },
-                scales: {
-                    x: { ticks: { color: '#94a3b8' }, grid: { color: '#1e293b' } },
-                    y: { ticks: { color: '#94a3b8' }, grid: { color: '#1e293b' } }
-                }
-            }
-        });
+        function loadSymbol(symbol) {
+            document.getElementById('tradingview_chart_container').innerHTML = '';
+            new TradingView.widget({
+                "autosize": true,
+                "symbol": symbol,
+                "interval": "D",
+                "timezone": "Asia/Ho_Chi_Minh",
+                "theme": "dark",
+                "style": "1",
+                "locale": "vi_VN",
+                "toolbar_bg": "#131b2e",
+                "enable_publishing": false,
+                "allow_symbol_change": true,
+                "container_id": "tradingview_chart_container"
+            });
+        }
+
+        // Tải mặc định biểu đồ VN-Index khi mở trang
+        window.onload = function() {
+            loadSymbol("HOSE:VNINDEX");
+        };
     </script>
 </body>
 </html>
