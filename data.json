@@ -1,16 +1,16 @@
 {
-    "last_update": "04/11/2026 02:27:37",
-    "vn_index": {
-        "value": 1286.5,
-        "change": 8.2,
-        "percent": 0.64,
-        "status": "up"
-    },
-    "market_breadth": {
-        "up": 156,
-        "reference": 75,
-        "down": 106
-    },
-    "foreign_flow": "-240 Tỷ (Bán ròng)",
-    "sentiment": "13 - Hoảng loạn"
+  "last_update": "04/11/2026 09:30:00",
+  "vn_index": {
+    "value": "1,286.50",
+    "change": "+8.20",
+    "percent": "+0.64"
+  },
+  "total_value": "13,807.3 Tỷ",
+  "foreign_flow": "-240 Tỷ (Bán ròng)",
+  "market_breadth": {
+    "up": "156",
+    "reference": "75",
+    "down": "106"
+  },
+  "sentiment": "13 - Hoảng loạn"
 }
