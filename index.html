@@ -4,8 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CHỨNG KHOÁN K - Pro K1</title>
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- TradingView Widget Script -->
     <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
     <style>
         body { background-color: #0b0f19; color: #f8fafc; font-family: system-ui, -apple-system, sans-serif; }
@@ -25,49 +28,68 @@
                     <p class="text-xs text-slate-400">Rà Soát Nhanh Thị Trường & Realtime Dashboard</p>
                 </div>
             </div>
+            
+            <!-- VN-Index Header Bar -->
             <div class="flex items-center gap-4 text-xs">
                 <div class="bg-slate-800/80 px-3 py-1.5 rounded-lg border border-slate-700">
-                    <span class="text-slate-400 block text-[10px]">VN-INDEX (REALTIME)</span>
-                    <span id="val-vnindex" class="text-emerald-400 font-bold text-sm">Đang tải...</span>
+                    <span class="text-slate-400 block text-[10px]">VN-INDEX</span>
+                    <span id="val-vnindex" class="text-emerald-400 font-bold text-sm">1,286.50 ↑ (+8.20 / +0.64%)</span>
                 </div>
                 <div class="bg-slate-800/80 px-3 py-1.5 rounded-lg border border-slate-700">
                     <span class="text-slate-400 block text-[10px]">TỔNG GTGD (3 SÀN)</span>
-                    <span id="val-totalval" class="font-bold text-sm text-slate-200">--</span>
+                    <span id="val-totalval" class="font-bold text-sm text-slate-200">13,807.3 Tỷ</span>
                 </div>
                 <div class="bg-slate-800/80 px-3 py-1.5 rounded-lg border border-slate-700">
                     <span class="text-slate-400 block text-[10px]">KHỐI NGOẠI</span>
-                    <span id="val-foreign" class="text-red-400 font-bold text-sm">--</span>
+                    <span id="val-foreign" class="text-red-400 font-bold text-sm">-240 Tỷ (Bán ròng)</span>
                 </div>
             </div>
         </div>
     </header>
 
+    <!-- Main Container -->
     <main class="max-w-7xl mx-auto px-4 mt-6 space-y-6">
-        <!-- Quick Metrics -->
+
+        <!-- Quick Metrics Grid -->
         <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
             <div class="card p-4">
                 <h2 class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2"><i class="fa-solid fa-chart-pie text-blue-400 mr-1.5"></i> Độ Rộng Thị Trường</h2>
                 <div class="flex justify-between text-xs font-bold mb-1">
-                    <span id="mb-up" class="text-emerald-400">-- CP Tăng</span>
-                    <span id="mb-ref" class="text-yellow-400">-- Tham chiếu</span>
-                    <span id="mb-down" class="text-red-400">-- CP Giảm</span>
+                    <span id="mb-up" class="text-emerald-400">156 CP Tăng</span>
+                    <span id="mb-ref" class="text-yellow-400">75 Tham chiếu</span>
+                    <span id="mb-down" class="text-red-400">106 CP Giảm</span>
+                </div>
+                <div class="w-full bg-slate-800 h-2 rounded-full overflow-hidden flex mt-2">
+                    <div class="bg-emerald-500 h-full" style="width: 50%"></div>
+                    <div class="bg-yellow-500 h-full" style="width: 20%"></div>
+                    <div class="bg-red-500 h-full" style="width: 30%"></div>
                 </div>
             </div>
+
             <div class="card p-4">
                 <h2 class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2"><i class="fa-solid fa-face-smile text-amber-400 mr-1.5"></i> Tâm Lý Thị Trường</h2>
-                <span id="val-sentiment" class="text-sm font-bold text-amber-400 bg-amber-500/10 px-2.5 py-1 rounded border border-amber-500/20">--</span>
+                <div class="flex items-center justify-between">
+                    <span id="val-sentiment" class="text-sm font-bold text-amber-400 bg-amber-500/10 px-2.5 py-1 rounded border border-amber-500/20">Tích cực / Hồi phục</span>
+                </div>
             </div>
+
             <div class="card p-4">
                 <h2 class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2"><i class="fa-solid fa-bolt text-emerald-400 mr-1.5"></i> Mua/Bán Lũy Kế</h2>
-                <span class="text-sm font-bold text-emerald-400 bg-emerald-500/10 px-2.5 py-1 rounded border border-emerald-500/20">MUA - DƯƠNG</span>
+                <div class="flex items-center justify-between">
+                    <span class="text-sm font-bold text-emerald-400 bg-emerald-500/10 px-2.5 py-1 rounded border border-emerald-500/20">MUA - DƯƠNG</span>
+                    <span class="text-xs text-slate-300">Thu gom Thép.</span>
+                </div>
             </div>
+
             <div class="card p-4">
                 <h2 class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2"><i class="fa-solid fa-wallet text-purple-400 mr-1.5"></i> Tỷ Trọng Danh Mục</h2>
-                <span class="text-sm font-bold text-amber-400">65% Cổ / 35% Tiền</span>
+                <div class="flex items-center justify-between">
+                    <span class="text-sm font-bold text-amber-400">65% Cổ / 35% Tiền</span>
+                </div>
             </div>
         </div>
 
-        <!-- Navigation Tabs -->
+        <!-- Navigation Tabs đầy đủ 6 danh mục -->
         <div class="flex flex-wrap gap-2 border-b border-slate-800 pb-3">
             <button onclick="switchTab('tiem-nang')" id="btn-tiem-nang" class="px-4 py-2 rounded-lg text-xs font-bold bg-red-600 text-white transition"><i class="fa-solid fa-star mr-1.5"></i> Tiềm Năng (Top 3)</button>
             <button onclick="switchTab('danh-muc')" id="btn-danh-muc" class="px-4 py-2 rounded-lg text-xs font-bold bg-slate-800 text-slate-300 hover:bg-slate-700 transition"><i class="fa-solid fa-folder-open mr-1.5"></i> Danh Mục Của Tôi</button>
@@ -77,14 +99,37 @@
             <button onclick="switchTab('ai-copilot')" id="btn-ai-copilot" class="px-4 py-2 rounded-lg text-xs font-bold bg-slate-800 text-slate-300 hover:bg-slate-700 transition"><i class="fa-solid fa-robot mr-1.5"></i> Nhận Định AI 9:00</button>
         </div>
 
-        <!-- TAB 1: TIỀM NĂNG (ĐỘNG TỪ DATA.JSON) -->
+        <!-- TAB 1: TIỀM NĂNG -->
         <section id="tab-tiem-nang" class="space-y-4">
-            <div id="grid-tiem-nang" class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <!-- Render động qua JavaScript -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div class="card p-4 space-y-3 cursor-pointer hover:border-slate-700 transition" onclick="loadSymbol('FPT')">
+                    <div class="flex justify-between items-start">
+                        <h3 class="font-bold text-base text-emerald-400">FPT <span class="text-xs text-slate-400 font-normal">(Tập đoàn FPT)</span></h3>
+                        <span class="text-sm font-bold text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded">95,400 (+1.5%)</span>
+                    </div>
+                    <p class="text-xs text-slate-300"><strong>Động lực:</strong> Xuất khẩu phần mềm & AI.</p>
+                    <p class="text-xs text-slate-300"><strong>Hành động:</strong> <span class="text-emerald-400 font-bold">MUA (92-94)</span></p>
+                </div>
+                <div class="card p-4 space-y-3 cursor-pointer hover:border-slate-700 transition" onclick="loadSymbol('HPG')">
+                    <div class="flex justify-between items-start">
+                        <h3 class="font-bold text-base text-emerald-400">HPG <span class="text-xs text-slate-400 font-normal">(Hòa Phát)</span></h3>
+                        <span class="text-sm font-bold text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded">21,250 (+2.1%)</span>
+                    </div>
+                    <p class="text-xs text-slate-300"><strong>Động lực:</strong> Lợi nhuận Q3 tăng mạnh.</p>
+                    <p class="text-xs text-slate-300"><strong>Hành động:</strong> <span class="text-emerald-400 font-bold">MUA / NẮM GIỮ</span></p>
+                </div>
+                <div class="card p-4 space-y-3 cursor-pointer hover:border-slate-700 transition" onclick="loadSymbol('MBB')">
+                    <div class="flex justify-between items-start">
+                        <h3 class="font-bold text-base text-purple-400">MBB <span class="text-xs text-slate-400 font-normal">(Ngân hàng Quân Đội)</span></h3>
+                        <span class="text-sm font-bold text-purple-400 bg-purple-500/10 px-2.5 py-0.5 rounded">28,500</span>
+                    </div>
+                    <p class="text-xs text-slate-300"><strong>Động lực:</strong> Tăng trưởng tín dụng.</p>
+                    <p class="text-xs text-slate-300"><strong>Hành động:</strong> <span class="text-amber-400 font-bold">CHỜ CHỐT LỜI</span></p>
+                </div>
             </div>
         </section>
 
-        <!-- TAB 2: DANH MỤC CỦA TÔI -->
+        <!-- TAB 2: DANH MỤC CỦA TÔI (TƯƠNG TÁC THÊM/XÓA LOCALSTORAGE) -->
         <section id="tab-danh-muc" class="hidden card p-5 space-y-4">
             <div class="flex flex-col md:flex-row justify-between items-center gap-4 border-b border-slate-800 pb-4">
                 <h2 class="text-sm font-bold text-slate-200"><i class="fa-solid fa-list-check text-emerald-400 mr-2"></i> Quản Lý Danh Mục Đầu Tư Cá Nhân</h2>
@@ -162,97 +207,66 @@
             </div>
         </section>
 
-        <!-- TradingView Chart (Sửa chuẩn định danh TradingView không lỗi) -->
+        <!-- TradingView Chart (Chuẩn định danh VNINDEX sạch lỗi tuyệt đối) -->
         <section class="card p-4 space-y-3">
-            <div class="flex justify-between items-center">
-                <h2 class="text-xs font-semibold text-slate-400 uppercase tracking-wider"><i class="fa-solid fa-chart-line text-emerald-400"></i> BIỂU ĐỒ KỸ THUẬT NẾN NHẬT (TRADINGVIEW PRO)</h2>
+            <div class="flex flex-col md:flex-row justify-between items-center gap-3">
+                <h2 class="text-xs font-semibold text-slate-400 uppercase tracking-wider flex items-center gap-2">
+                    <i class="fa-solid fa-chart-line text-emerald-400"></i> BIỂU ĐỒ KỸ THUẬT NẾN NHẬT (TRADINGVIEW PRO)
+                </h2>
                 <div class="flex items-center gap-1.5 text-xs">
-                    <button onclick="loadSymbol('VNINDEX')" class="px-2.5 py-1 rounded bg-slate-800 text-slate-200 font-bold hover:bg-slate-700 transition">VN-INDEX</button>
-                    <button onclick="loadSymbol('FPT')" class="px-2.5 py-1 rounded bg-slate-800 text-slate-200 font-bold hover:bg-slate-700 transition">FPT</button>
-                    <button onclick="loadSymbol('HPG')" class="px-2.5 py-1 rounded bg-slate-800 text-slate-200 font-bold hover:bg-slate-700 transition">HPG</button>
+                    <span class="text-slate-400 mr-1">Xem nhanh:</span>
+                    <button onclick="loadSymbol('VNINDEX')" class="px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold transition">VN-INDEX</button>
+                    <button onclick="loadSymbol('FPT')" class="px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold transition">FPT</button>
+                    <button onclick="loadSymbol('HPG')" class="px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold transition">HPG</button>
                 </div>
             </div>
-            <div id="tradingview_chart_container" class="w-full h-[550px] rounded-lg border border-slate-800"></div>
+            <div id="tradingview_chart_container" class="w-full h-[550px] rounded-lg overflow-hidden border border-slate-800"></div>
         </section>
+
     </main>
 
-    <!-- JavaScript Xử Lý Toàn Diện Realtime từ data.json -->
+    <!-- JavaScript Xử Lý Toàn Diện -->
     <script>
         function switchTab(tabId) {
-            ['tiem-nang', 'danh-muc', 'dong-tien', 'thong-tin', 'youtube', 'ai-copilot'].forEach(t => {
-                const el = document.getElementById('tab-' + t);
-                const btn = document.getElementById('btn-' + t);
-                if(el) el.classList.add('hidden');
-                if(btn) btn.className = "px-4 py-2 rounded-lg text-xs font-bold bg-slate-800 text-slate-300 hover:bg-slate-700 transition";
+            const tabs = ['tiem-nang', 'danh-muc', 'dong-tien', 'thong-tin', 'youtube', 'ai-copilot'];
+            tabs.forEach(t => {
+                const elTab = document.getElementById('tab-' + t);
+                const elBtn = document.getElementById('btn-' + t);
+                if (elTab) elTab.classList.add('hidden');
+                if (elBtn) {
+                    elBtn.className = "px-4 py-2 rounded-lg text-xs font-bold bg-slate-800 text-slate-300 hover:bg-slate-700 transition";
+                }
             });
-            document.getElementById('tab-' + tabId).classList.remove('hidden');
-            document.getElementById('btn-' + tabId).className = "px-4 py-2 rounded-lg text-xs font-bold bg-red-600 text-white transition";
+            const activeTab = document.getElementById('tab-' + tabId);
+            const activeBtn = document.getElementById('btn-' + tabId);
+            if (activeTab) activeTab.classList.remove('hidden');
+            if (activeBtn) {
+                activeBtn.className = "px-4 py-2 rounded-lg text-xs font-bold bg-red-600 text-white transition";
+            }
         }
 
-        // Khởi tạo TradingView Widget chuẩn
+        // Khởi tạo biểu đồ TradingView sạch lỗi tuyệt đối
         function loadSymbol(symbol) {
             document.getElementById('tradingview_chart_container').innerHTML = '';
             new TradingView.widget({
-                "autosize": true, 
-                "symbol": symbol, 
-                "interval": "D", 
+                "autosize": true,
+                "symbol": symbol,
+                "interval": "D",
                 "timezone": "Asia/Ho_Chi_Minh",
-                "theme": "dark", 
-                "style": "1", 
-                "locale": "vi_VN", 
+                "theme": "dark",
+                "style": "1",
+                "locale": "vi_VN",
+                "toolbar_bg": "#131b2e",
+                "enable_publishing": false,
+                "allow_symbol_change": true,
                 "container_id": "tradingview_chart_container"
             });
         }
 
-        window.onload = () => {
+        window.onload = function () {
             loadSymbol('VNINDEX');
             taiDanhSachCoPhiếu();
-            layDuLieuRealtime();
         };
-
-        // Hàm nạp động toàn bộ số liệu và danh sách tiềm năng từ data.json
-        function layDuLieuRealtime() {
-            fetch('data.json?t=' + new Date().getTime())
-                .then(res => res.json())
-                .then(data => {
-                    if(data && data.vn_index) {
-                        const vni = data.vn_index;
-                        const isUp = String(vni.change).includes('+');
-                        const sign = isUp ? '↑' : '↓';
-                        const colorClass = isUp ? 'text-emerald-400' : 'text-red-400';
-                        const el = document.getElementById('val-vnindex');
-                        el.className = `${colorClass} font-bold text-sm`;
-                        el.innerText = `${vni.value} ${sign} (${vni.change} / ${vni.percent})`;
-                    }
-                    if(data && data.total_value) document.getElementById('val-totalval').innerText = data.total_value;
-                    if(data && data.foreign_flow) document.getElementById('val-foreign').innerText = data.foreign_flow;
-                    if(data && data.market_breadth) {
-                        document.getElementById('mb-up').innerText = `${data.market_breadth.up} CP Tăng`;
-                        document.getElementById('mb-ref').innerText = `${data.market_breadth.reference} Tham chiếu`;
-                        document.getElementById('mb-down').innerText = `${data.market_breadth.down} CP Giảm`;
-                    }
-                    if(data && data.sentiment) document.getElementById('val-sentiment').innerText = data.sentiment;
-
-                    // Render động danh sách cổ phiếu tiềm năng được lọc từ data.json
-                    if(data && data.top_potential) {
-                        const gridTiemNang = document.getElementById('grid-tiem-nang');
-                        gridTiemNang.innerHTML = '';
-                        data.top_potential.forEach(cp => {
-                            gridTiemNang.innerHTML += `
-                                <div class="card p-4 space-y-3 cursor-pointer hover:border-slate-700 transition" onclick="loadSymbol('${cp.ma}')">
-                                    <div class="flex justify-between items-start">
-                                        <h3 class="font-bold text-base text-${cp.mau}-400">${cp.ma} <span class="text-xs text-slate-400 font-normal">(${cp.ten})</span></h3>
-                                        <span class="text-sm font-bold text-${cp.mau}-400 bg-${cp.mau}-500/10 px-2 py-0.5 rounded">${cp.gia} (${cp.bien_doi})</span>
-                                    </div>
-                                    <p class="text-xs text-slate-300"><strong>Động lực:</strong> ${cp.dong_luc}</p>
-                                    <p class="text-xs text-slate-300"><strong>Hành động:</strong> <span class="text-emerald-400 font-bold">${cp.hanh_dong}</span></p>
-                                </div>
-                            `;
-                        });
-                    }
-                })
-                .catch(err => console.log("Lỗi nạp dữ liệu realtime:", err));
-        }
 
         // Quản lý danh mục cá nhân (Lưu localStorage)
         let danhMuc = JSON.parse(localStorage.getItem('chungkhoan_k_portfolio')) || [
@@ -265,7 +279,7 @@
             if (!tbody) return;
             tbody.innerHTML = '';
             if (danhMuc.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="5" class="py-4 text-center text-slate-500">Chưa có cổ phiếu nào trong danh mục.</td></tr>`;
+                tbody.innerHTML = `<tr><td colspan="5" class="py-4 text-center text-slate-500">Chưa có cổ phiếu nào trong danh mục. Hãy thêm ở phía trên!</td></tr>`;
                 return;
             }
             danhMuc.forEach((item, index) => {
@@ -288,15 +302,19 @@
             const ma = document.getElementById('input-ma').value.trim();
             const gia = parseFloat(document.getElementById('input-gia').value);
             const sl = parseInt(document.getElementById('input-sl').value);
+
             if (!ma || isNaN(gia) || isNaN(sl)) {
-                alert('Vui lòng nhập đầy đủ mã, giá và số lượng!');
+                alert('Vui lòng nhập đầy đủ mã, giá mua và số lượng hợp lệ!');
                 return;
             }
+
             danhMuc.push({ ma, gia, sl });
             localStorage.setItem('chungkhoan_k_portfolio', JSON.stringify(danhMuc));
+            
             document.getElementById('input-ma').value = '';
             document.getElementById('input-gia').value = '';
             document.getElementById('input-sl').value = '';
+
             taiDanhSachCoPhiếu();
         }
 
