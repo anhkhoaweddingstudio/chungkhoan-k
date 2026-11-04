@@ -50,7 +50,7 @@
             <div class="flex items-center gap-4 text-xs">
                 <div class="bg-slate-800/80 px-3 py-1.5 rounded-lg border border-slate-700">
                     <span class="text-slate-400 block text-[10px]">VN-INDEX</span>
-                    <span id="val-vnindex" class="text-emerald-400 font-bold text-sm">169.40 ↑ (+2.50 / +1.50%)</span>
+                    <span id="val-vnindex" class="text-emerald-400 font-bold text-sm">--</span>
                 </div>
                 <div class="bg-slate-800/80 px-3 py-1.5 rounded-lg border border-slate-700">
                     <span class="text-slate-400 block text-[10px]">TỔNG GTGD (3 SÀN)</span>
@@ -106,7 +106,7 @@
             </div>
         </div>
 
-        <!-- Navigation Tabs (Đã đầy đủ hoàn toàn) -->
+        <!-- Navigation Tabs đầy đủ 6 danh mục -->
         <div class="flex flex-wrap gap-2 border-b border-slate-800 pb-3">
             <button onclick="switchTab('tiem-nang')" id="btn-tiem-nang" class="px-4 py-2 rounded-lg text-xs font-bold bg-red-600 text-white transition"><i class="fa-solid fa-star mr-1.5"></i> Tiềm Năng (Top 3)</button>
             <button onclick="switchTab('danh-muc')" id="btn-danh-muc" class="px-4 py-2 rounded-lg text-xs font-bold bg-slate-800 text-slate-300 hover:bg-slate-700 transition"><i class="fa-solid fa-folder-open mr-1.5"></i> Danh Mục Của Tôi</button>
@@ -116,7 +116,7 @@
             <button onclick="switchTab('ai-copilot')" id="btn-ai-copilot" class="px-4 py-2 rounded-lg text-xs font-bold bg-slate-800 text-slate-300 hover:bg-slate-700 transition"><i class="fa-solid fa-robot mr-1.5"></i> Nhận Định AI 9:00</button>
         </div>
 
-        <!-- Tab 1: Tiềm Năng -->
+        <!-- Nội dung Tab 1 -->
         <section id="tab-tiem-nang" class="space-y-4">
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div class="card p-4 space-y-3">
@@ -146,14 +146,14 @@
             </div>
         </section>
 
-        <!-- Các Tab còn lại -->
+        <!-- Các Tab ẩn còn lại -->
         <section id="tab-danh-muc" class="hidden card p-4 text-xs text-slate-400">Đang cập nhật danh mục cá nhân...</section>
         <section id="tab-dong-tien" class="hidden card p-4 text-xs text-slate-400">Đang cập nhật dòng tiền khối ngoại...</section>
         <section id="tab-thong-tin" class="hidden card p-4 text-xs text-slate-400">Tổng hợp tin tức thị trường...</section>
         <section id="tab-youtube" class="hidden card p-4 text-xs text-slate-400">Ghi chép video YouTube...</section>
         <section id="tab-ai-copilot" class="hidden card p-4 text-xs text-slate-400">Nhật ký nhận định AI...</section>
 
-        <!-- TradingView Chart Section -->
+        <!-- TradingView Chart (Mã chuẩn INDEX:VNINDEX chống lỗi thông báo) -->
         <section class="card p-4 space-y-3">
             <div class="flex flex-col md:flex-row justify-between items-center gap-3">
                 <h2 class="text-xs font-semibold text-slate-400 uppercase tracking-wider flex items-center gap-2">
@@ -161,8 +161,7 @@
                 </h2>
                 <div class="flex items-center gap-1.5 text-xs">
                     <span class="text-slate-400 mr-2">Xem nhanh:</span>
-                    <button onclick="loadSymbol('HOSE:VNINDEX')" class="px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold transition">VN-INDEX</button>
-                    <button onclick="loadSymbol('HOSE:VN30')" class="px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold transition">VN30</button>
+                    <button onclick="loadSymbol('INDEX:VNINDEX')" class="px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold transition">VN-INDEX</button>
                     <button onclick="loadSymbol('HOSE:FPT')" class="px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold transition">FPT</button>
                     <button onclick="loadSymbol('HOSE:HPG')" class="px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold transition">HPG</button>
                 </div>
@@ -172,7 +171,7 @@
 
     </main>
 
-    <!-- JavaScript Logic -->
+    <!-- JavaScript xử lý -->
     <script>
         function switchTab(tabId) {
             const tabs = ['tiem-nang', 'danh-muc', 'dong-tien', 'thong-tin', 'youtube', 'ai-copilot'];
@@ -212,10 +211,10 @@
         }
 
         window.onload = function () {
-            loadSymbol('HOSE:VNINDEX');
+            loadSymbol('INDEX:VNINDEX');
         };
 
-        // Nạp dữ liệu realtime
+        // Nạp dữ liệu realtime từ file data.json có chống cache
         fetch('data.json?t=' + new Date().getTime())
             .then(response => response.json())
             .then(data => {
@@ -223,11 +222,15 @@
                     const vni = data.vn_index;
                     const vnEl = document.getElementById('val-vnindex');
                     if (vnEl) {
-                        vnEl.innerText = `${vni.value} ↑ (${vni.change} / ${vni.percent})`;
+                        const isUp = String(vni.change).includes('+') || parseFloat(vni.change) >= 0;
+                        const sign = isUp ? '↑' : '↓';
+                        const colorClass = isUp ? 'text-emerald-400' : 'text-red-400';
+                        vnEl.className = `${colorClass} font-bold text-sm`;
+                        vnEl.innerText = `${vni.value}${sign} (${vni.change} /${vni.percent})`;
                     }
                 }
-            })
-            .catch(err => console.log(err));
-    </script>
-</body>
-</html>
+                if (data && data.total_value) document.getElementById('val-totalval').innerText = data.total_value;
+                if (data && data.foreign_flow) document.getElementById('val-foreign').innerText = data.foreign_flow;
+                if (data && data.market_breadth) {
+                    document.getElementById('mb-up').innerText = `${data.market_breadth.up} CP Tăng`; document.getElementById('mb-ref').innerText = `${data.market_breadth.reference} Tham chiếu`;
+                    document.getElementById('mb-down').innerText = `${data.
