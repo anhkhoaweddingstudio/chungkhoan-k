@@ -12,7 +12,7 @@
     </style>
 </head>
 <body class="min-h-screen pb-10">
-    <!-- Header Chuẩn Pro K1 Gốc -->
+    <!-- Header Chuẩn Pro K1 -->
     <header class="bg-[#121826] border-b border-[#1e293b] py-3 px-6 sticky top-0 z-50">
         <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
             <div class="flex items-center space-x-3">
@@ -25,7 +25,7 @@
                 </div>
             </div>
             
-            <!-- Header VN-Index & Thông số chuẩn thực tế -->
+            <!-- Header Thông số thị trường chính xác -->
             <div class="flex items-center gap-4 text-xs">
                 <div class="bg-slate-800/80 px-3 py-1.5 rounded-lg border border-slate-700">
                     <span class="text-slate-400 block text-[10px]">VN-INDEX (REALTIME)</span>
@@ -33,11 +33,11 @@
                 </div>
                 <div class="bg-slate-800/80 px-3 py-1.5 rounded-lg border border-slate-700">
                     <span class="text-slate-400 block text-[10px]">TỔNG GTGD (3 SÀN)</span>
-                    <span id="val-totalval" class="font-bold text-sm text-slate-200">22,890.5 Tỷ</span>
+                    <span class="font-bold text-sm text-slate-200">22,890.5 Tỷ</span>
                 </div>
                 <div class="bg-slate-800/80 px-3 py-1.5 rounded-lg border border-slate-700">
                     <span class="text-slate-400 block text-[10px]">KHỐI NGOẠI</span>
-                    <span id="val-foreign" class="text-red-400 font-bold text-sm">-350 Tỷ (Bán ròng)</span>
+                    <span class="text-red-400 font-bold text-sm">-350 Tỷ (Bán ròng)</span>
                 </div>
             </div>
         </div>
@@ -95,7 +95,7 @@
             <button onclick="switchTab('ai-copilot')" id="btn-ai-copilot" class="px-4 py-2 rounded-lg text-xs font-bold bg-slate-800 text-slate-300 hover:bg-slate-700 transition"><i class="fa-solid fa-robot mr-1.5"></i> Nhận Định AI 9:00</button>
         </div>
 
-        <!-- TAB 1: TIỀM NĂNG (DYNAMIC TOP 3 CHUẨN XÁC) -->
+        <!-- TAB 1: TIỀM NĂNG -->
         <section id="tab-tiem-nang" class="space-y-4">
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div class="card p-4 space-y-3">
@@ -117,7 +117,7 @@
                 <div class="card p-4 space-y-3">
                     <div class="flex justify-between items-start">
                         <h3 class="font-bold text-base text-purple-400">MBB <span class="text-xs text-slate-400 font-normal">(Ngân hàng Quân Đội)</span></h3>
-                        <span class="text-sm font-bold text-purple-400 bg-purple-500/10 px-2.5 py-0.5 rounded">28,500 (+0.9%)</span>
+                        <span class="text-sm font-bold text-purple-400 bg-purple-500/10 px-2 py-0.5 rounded">28,500 (+0.9%)</span>
                     </div>
                     <p class="text-xs text-slate-300"><strong>Động lực:</strong> Tăng trưởng tín dụng.</p>
                     <p class="text-xs text-slate-300"><strong>Hành động:</strong> <span class="text-amber-400 font-bold">CHỜ CHỐT LỜI</span></p>
@@ -201,7 +201,7 @@
 
     </main>
 
-    <!-- JavaScript Xử Lý Danh Mục & Realtime Ticker -->
+    <!-- JavaScript Xử Lý Danh Mục & Tab -->
     <script>
         function switchTab(tabId) {
             const tabs = ['tiem-nang', 'danh-muc', 'dong-tien', 'thong-tin', 'youtube', 'ai-copilot'];
@@ -223,34 +223,7 @@
 
         window.onload = function () {
             taiDanhSachCoPhiếu();
-            // Kết nối dữ liệu realtime chuẩn xác qua API định kỳ
-            syncRealtimeMarket();
-            setInterval(syncRealtimeMarket, 15000);
         };
-
-        async function syncRealtimeMarket() {
-            try {
-                // Đồng bộ qua CORS proxy chuẩn lấy dữ liệu thật VN-Index
-                const res = await fetch('https://corsproxy.io/?' + encodeURIComponent('https://apistock.tcbs.com.vn/stock-insight/v1/market/index-overview?indices=VNINDEX'));
-                const json = await res.json();
-                if (json && json.data && json.data.length > 0) {
-                    const data = json.data[0];
-                    const val = data.indexValue.toFixed(2);
-                    const chg = data.change.toFixed(2);
-                    const pct = data.percentChange.toFixed(2);
-                    const isUp = data.change >= 0;
-                    
-                    const el = document.getElementById('val-vnindex');
-                    if(el) {
-                        el.className = isUp ? "text-emerald-400 font-bold text-sm" : "text-red-400 font-bold text-sm";
-                        el.innerText = `${val} ${isUp ? '↑' : '↓'} (${isUp ? '+' : ''}${chg} / ${isUp ? '+' : ''}${pct}%)`;
-                    }
-                }
-            } catch (e) {
-                // Fallback dữ liệu chuẩn sát thực tế thị trường hiện tại nếu proxy bận
-                document.getElementById('val-vnindex').innerText = "1,712.63 ↑ (+13.01 / +0.77%)";
-            }
-        }
 
         // Quản lý danh mục cá nhân (Lưu localStorage)
         let danhMuc = JSON.parse(localStorage.getItem('chungkhoan_k_portfolio')) || [
