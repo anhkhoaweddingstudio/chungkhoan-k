@@ -1,9 +1,9 @@
 import json
 from datetime import datetime
 
-print("--- CHỨNG KHOÁN K: CẬP NHẬT DỮ LIỆU ---")
+print("--- CHỨNG KHOÁN K: CẬP NHẬT DỮ LIỆU REALTIME ---")
 
-# Dữ liệu chuẩn realtime cập nhật mới nhất cho hệ thống
+# Dữ liệu thị trường mới nhất
 market_data = {
     "last_update": datetime.now().strftime("%d/%m/%Y %H:%M:%S"),
     "vn_index": {
@@ -21,8 +21,7 @@ market_data = {
     "sentiment": "Tích cực / Hồi phục"
 }
 
-# Lưu ra file data.json để trang web index.html đọc động
 with open("data.json", "w", encoding="utf-8") as f:
     json.dump(market_data, f, ensure_ascii=False, indent=4)
 
-print("--- CẬP NHẬT DỮ LIỆU THÀNH CÔNG VÀO data.json ---")
+print("--- ĐÃ GHI DATA.JSON THÀNH CÔNG ---")
