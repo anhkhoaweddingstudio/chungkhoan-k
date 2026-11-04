@@ -1,5 +1,5 @@
 {
-    "last_update": "04/11/2026 03:27:24",
+    "last_update": "04/11/2026 03:56:35",
     "vn_index": {
         "value": "1,286.50",
         "change": "+8.20",
@@ -12,5 +12,34 @@
         "reference": "75",
         "down": "106"
     },
-    "sentiment": "Tích cực / Hồi phục"
+    "sentiment": "Tích cực / Hồi phục",
+    "top_potential": [
+        {
+            "ma": "FPT",
+            "ten": "Tập đoàn FPT",
+            "gia": "95,400",
+            "bien_doi": "+1.5%",
+            "dong_luc": "Xuất khẩu phần mềm & AI mạnh.",
+            "hanh_dong": "MUA (92-94)",
+            "mau": "emerald"
+        },
+        {
+            "ma": "HPG",
+            "ten": "Hòa Phát",
+            "gia": "21,250",
+            "bien_doi": "+2.1%",
+            "dong_luc": "Lợi nhuận Q3 tăng trưởng tốt.",
+            "hanh_dong": "MUA / NẮM GIỮ",
+            "mau": "emerald"
+        },
+        {
+            "ma": "VCB",
+            "ten": "Ngân hàng Ngoại Thương",
+            "gia": "92,000",
+            "bien_doi": "+0.8%",
+            "dong_luc": "Dòng tiền lớn dẫn dắt nhóm ngân hàng.",
+            "hanh_dong": "THEO DÕI / TÍCH LŨY",
+            "mau": "purple"
+        }
+    ]
 }
