@@ -2,18 +2,13 @@ import json
 from datetime import datetime
 import urllib.request
 
-print("--- CHỨNG KHOÁN K: BẮT ĐẦU KẾT NỐI API LẤY DỮ LIỆU REALTIME ---")
+print("--- CHỨNG KHOÁN K: BẮT ĐẦU CẬP NHẬT REALTIME ---")
 
-# Kết nối API chính thức từ nguồn tài chính để lấy dữ liệu trực tiếp
 try:
     url = "https://apistock.tcbs.com.vn/stock-insight/v1/market/index-overview?indices=VNINDEX"
-    req = urllib.request.Request(
-        url, 
-        headers={'User-Agent': 'Mozilla/5.0'}
-    )
+    req = urllib.request.Request(url, headers={'User-Agent': 'Mozilla/5.0'})
     with urllib.request.urlopen(req, timeout=10) as response:
         res_data = json.loads(response.read().decode('utf-8'))
-        # Bóc tách dữ liệu thực tế từ API
         data_item = res_data.get('data', [{}])[0]
         vni_val = data_item.get('indexValue', 169.40)
         vni_change = data_item.get('change', 2.50)
@@ -36,8 +31,7 @@ try:
             "sentiment": "Tích cực / Hồi phục"
         }
 except Exception as e:
-    print(f"Lỗi kết nối API trực tiếp, sử dụng dữ liệu dự phòng realtime: {e}")
-    # Dữ liệu dự phòng cập nhật mới nhất theo thời điểm hiện tại
+    print(f"Lỗi API, dùng dữ liệu dự phòng: {e}")
     market_data = {
         "last_update": datetime.now().strftime("%d/%m/%Y %H:%M:%S"),
         "vn_index": {
@@ -55,8 +49,7 @@ except Exception as e:
         "sentiment": "Tích cực / Hồi phục"
     }
 
-# Lưu ra file data.json để trang web index.html đọc realtime
 with open("data.json", "w", encoding="utf-8") as f:
     json.dump(market_data, f, ensure_ascii=False, indent=4)
 
-print("--- CẬP NHẬT DỮ LIỆU REALTIME THÀNH CÔNG VÀO data.json ---")
+print("--- HOÀN TẤT CẬP NHẬT data.json ---")
