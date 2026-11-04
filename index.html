@@ -330,12 +330,26 @@
 </body>
 </html>
 <script>
-    // Tự động đọc dữ liệu thị trường từ file data.json
+    // Tự động nạp dữ liệu realtime từ file data.json cho phiên giao dịch
     fetch('data.json?t=' + new Date().getTime())
         .then(response => response.json())
         .then(data => {
-            console.log("Dữ liệu realtime đã tải:", data);
-            // Có thể gắn trực tiếp dữ liệu ra giao diện tại đây
+            console.log("Đã nạp dữ liệu data.json thành công:", data);
+            
+            // 1. Cập nhật chỉ số VN-Index trên Header (nếu data có cấu hình)
+            if (data.vn_index) {
+                const indexEl = document.querySelector('.text-emerald-400, .text-red-400');
+                if (indexEl) {
+                    indexEl.innerText = `${data.vn_index.value} (${data.vn_index.change} / ${data.vn_index.percent})`;
+                }
+            }
+
+            // 2. Cập nhật Tổng giá trị giao dịch
+            if (data.total_value) {
+                const valEl = document.querySelector('span:contains("13,807.3 Tỷ")'); // hoặc bám theo cấu trúc
+            }
+            
+            // 3. Cập nhật các thông số khác nếu script Python trả về cấu trúc tương ứng
         })
-        .catch(err => console.log("Lỗi tải data.json:", err));
+        .catch(err => console.log("Lỗi nạp data.json:", err));
 </script>
