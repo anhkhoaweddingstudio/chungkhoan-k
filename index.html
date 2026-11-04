@@ -281,4 +281,39 @@
                         <td class="py-2.5 px-3">${item.gia.toLocaleString()} đ</td>
                         <td class="py-2.5 px-3">${item.sl.toLocaleString()}</td>
                         <td class="py-2.5 px-3 font-bold text-slate-200">${thanhTien.toLocaleString()} đ</td>
-                        <td class="py-2.5
+                        <td class="py-2.5 px-3 text-right">
+                            <button onclick="xoaCoPhiếu(${index})" class="bg-red-500/20 text-red-400 hover:bg-red-500 hover:text-white px-2.5 py-1 rounded text-[11px] transition">Xóa</button>
+                        </td>
+                    </tr>
+                `;
+            });
+        }
+
+        function themCoPhiếu() {
+            const ma = document.getElementById('input-ma').value.trim();
+            const gia = parseFloat(document.getElementById('input-gia').value);
+            const sl = parseInt(document.getElementById('input-sl').value);
+
+            if (!ma || isNaN(gia) || isNaN(sl)) {
+                alert('Vui lòng nhập đầy đủ mã, giá mua và số lượng hợp lệ!');
+                return;
+            }
+
+            danhMuc.push({ ma, gia, sl });
+            localStorage.setItem('chungkhoan_k_portfolio', JSON.stringify(danhMuc));
+            
+            document.getElementById('input-ma').value = '';
+            document.getElementById('input-gia').value = '';
+            document.getElementById('input-sl').value = '';
+
+            taiDanhSachCoPhiếu();
+        }
+
+        function xoaCoPhiếu(index) {
+            danhMuc.splice(index, 1);
+            localStorage.setItem('chungkhoan_k_portfolio', JSON.stringify(danhMuc));
+            taiDanhSachCoPhiếu();
+        }
+    </script>
+</body>
+</html>
